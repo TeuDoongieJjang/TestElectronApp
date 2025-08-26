@@ -44,20 +44,20 @@ module.exports = {
         {
           // 👇 Main process
           entry: 'src/main.js',
-          config: 'vite.main.config.js',
+          config: 'vite.main.config.mjs',
           target: 'main',
         },
         {
           // 👇 Preload script (if you need it)
           entry: 'src/preload.js',
-          config: 'vite.preload.config.js',
+          config: 'vite.preload.config.mjs',
           target: 'preload',
         },
       ],
       renderer: [
         {
           name: 'main_window',
-          config: 'vite.renderer.config.js',
+          config: 'vite.renderer.config.mjs',
         },
       ],
     }),
