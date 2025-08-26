@@ -12,10 +12,11 @@ module.exports = {
       name: '@electron-forge/publisher-github',
       config: {
         repository: {
-          owner: 'me',
-          name: 'awesome-thing'
+          owner: 'TeuDoongieJjang',
+          name: 'TestElectronApp'
         },
-        prerelease: true
+        prerelease: true,
+        draftRelease: true
       }
     }
   ],
