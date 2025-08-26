@@ -1,15 +1,23 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
+import electron from 'vite-plugin-electron'
 
 export default defineConfig({
+  plugins: [
+    electron({
+      main: {
+        entry: 'src/main.js',
+      },
+      preload: {
+        input: 'src/preload.js',
+      },
+    }),
+  ],
   build: {
-    outDir: '.vite/build',
-    emptyOutDir: true,
-    lib: {
-      entry: 'src/main.js',
-      formats: ['cjs'],
-    },
     rollupOptions: {
-      external: ['electron'], // don’t bundle electron
+      external: [
+        'electron',
+        'electron-updater',
+      ],
     },
   },
-});
+})
