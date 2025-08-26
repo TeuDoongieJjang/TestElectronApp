@@ -1,6 +1,6 @@
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
-
+const { VitePlugin } = require('@electron-forge/plugin-vite');
 
 module.exports = {
   packagerConfig: {
@@ -13,12 +13,12 @@ module.exports = {
       config: {
         repository: {
           owner: 'TeuDoongieJjang',
-          name: 'TestElectronApp'
+          name: 'TestElectronApp',
         },
         prerelease: true,
-        draftRelease: true
-      }
-    }
+        draftRelease: true,
+      },
+    },
   ],
   makers: [
     {
@@ -39,34 +39,30 @@ module.exports = {
     },
   ],
   plugins: [
-    {
-      name: '@electron-forge/plugin-vite',
-      config: {
-        // `build` can specify multiple entry builds, which can be Main process, Preload scripts, Worker process, etc.
-        // If you are familiar with Vite configuration, it will look really familiar.
-        build: [
-          {
-            // `entry` is just an alias for `build.lib.entry` in the corresponding file of `config`.
-            entry: 'src/main.js',
-            config: 'vite.main.config.mjs',
-            target: 'main',
-          },
-          {
-            entry: 'src/preload.js',
-            config: 'vite.preload.config.mjs',
-            target: 'preload',
-          },
-        ],
-        renderer: [
-          {
-            name: 'main_window',
-            config: 'vite.renderer.config.mjs',
-          },
-        ],
-      },
-    },
-    // Fuses are used to enable/disable various Electron functionality
-    // at package time, before code signing the application
+    new VitePlugin({
+      build: [
+        {
+          // 👇 Main process
+          entry: 'src/main.js',
+          config: 'vite.main.config.js',
+          target: 'main',
+        },
+        {
+          // 👇 Preload script (if you need it)
+          entry: 'src/preload.js',
+          config: 'vite.preload.config.js',
+          target: 'preload',
+        },
+      ],
+      renderer: [
+        {
+          name: 'main_window',
+          config: 'vite.renderer.config.js',
+        },
+      ],
+    }),
+
+    // 👇 Keep your fuses
     new FusesPlugin({
       version: FuseVersion.V1,
       [FuseV1Options.RunAsNode]: false,

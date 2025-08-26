@@ -3,7 +3,7 @@
   "productName": "my-app",
   "version": "1.0.0",
   "description": "My Electron application description",
-  "main": "src/main.js",
+  "main": ".vite/build/main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/TeuDoongieJjang/TestElectronApp.git"
@@ -23,8 +23,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\"",
-    "build": "vite build"
+    "lint": "echo \"No linting configured\""
   },
   "keywords": [],
   "author": {
