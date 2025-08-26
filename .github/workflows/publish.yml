@@ -1,31 +1,37 @@
-name: Publish Electron App
+name: Publish
 
 on:
   push:
     tags:
-      - 'v*.*.*'   # runs when you push a version tag (ex: v1.0.1)
+      - 'v*.*.*' # Run only when you push version tags like v1.0.0
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 20   
+          node-version: 18
 
-      - run: npm install
+      - name: Install dependencies
+        run: npm install
 
+      - name: Make build
+        run: npm run make
 
-      - run: npm run publish
+      # Upload to GitHub Release
+      - name: Upload build artifacts
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            out/make/**/*/*.exe
+            out/make/**/*/*.zip
+            out/make/**/*/*.dmg
+            out/make/**/*/*.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Release Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: electron-builds
-          path: out/make/**/*
