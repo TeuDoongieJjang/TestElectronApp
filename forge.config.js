@@ -1,7 +1,6 @@
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 
-process.env.GITHUB_TOKEN;
 
 module.exports = {
   packagerConfig: {
@@ -10,9 +9,6 @@ module.exports = {
   rebuildConfig: {},
   publishers: [
     {
-      permissions: {
-        contents: write
-      },
       name: '@electron-forge/publisher-github',
       config: {
         repository: {
