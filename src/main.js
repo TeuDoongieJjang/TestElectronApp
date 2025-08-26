@@ -1,6 +1,9 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, dialog } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
+
+import { autoUpdater } from 'electron-updater';
+
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -55,6 +58,25 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 
-const { updateElectronApp } = require('update-electron-app');
+// Auto-updater events
+autoUpdater.on('update-available', () => {
+  dialog.showMessageBox({
+    type: 'info',
+    title: 'Update available',
+    message: 'A new version is available. Downloading now...',
+  });
+});
 
-updateElectronApp();
+autoUpdater.on('update-downloaded', () => {
+  dialog.showMessageBox({
+    type: 'question',
+    buttons: ['Restart', 'Later'],
+    defaultId: 0,
+    title: 'Update ready',
+    message: 'A new version has been downloaded. Restart now to apply the update?',
+  }).then(result => {
+    if (result.response === 0) { // Restart
+      autoUpdater.quitAndInstall();
+    }
+  });
+});
