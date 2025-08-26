@@ -7,7 +7,11 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
     permissions:
       contents: write
 
@@ -35,5 +39,7 @@ jobs:
             out/make/**/*/*.zip
             out/make/**/*/*.dmg
             out/make/**/*/*.AppImage
+            out/make/**/*/*.rpm
+            out/make/**/*/*.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
